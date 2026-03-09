@@ -1,0 +1,120 @@
+.container {
+    max-width: 800px;
+    margin: 120px auto 50px;
+    text-align: center; /* Centrado de texto en el contenedor */
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: var(--text);
+    font-weight: bold;
+}
+
+/* Contenedor de los campos de búsqueda */
+.buscador-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    text-align: center; /* Centrado de los elementos dentro del contenedor */
+}
+
+.buscador {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+
+/* Eliminamos el hover de las tarjetas */
+.profesor-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    /* Eliminar el efecto hover que hace escalar la tarjeta */
+    transition: none; /* Eliminar el efecto de transición */
+}
+
+/* Lista de teléfonos sin puntos */
+.telefono-lista {
+    list-style: none; /* Elimina los puntos de la lista */
+    padding: 0; /* Elimina el padding */
+    margin: 10px 0;
+}
+
+.telefono-lista li {
+    font-size: 1em;
+    margin: 5px 0;
+    color: var(--text);
+}
+
+/* Categorías */
+.categorias {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.categorias button {
+    padding: 10px 15px;
+    font-size: 1em;
+    background: #eefcee;
+    color: var(--text);
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+}
+
+.categorias button.active {
+    background: var(--button-color-primary);
+    color: var(--text);
+}
+
+/* Profesores */
+.profesores-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+    width: 90%;
+    max-width: 400px;
+}
+
+button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background: var(--button-color-primary);
+    color: var(--text);
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    border-radius: 30px;
+}

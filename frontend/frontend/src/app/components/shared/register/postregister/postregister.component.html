@@ -1,0 +1,54 @@
+<div class="form">
+  <div class="form__container">
+    <h1>Datos Extra</h1>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <mat-form-field appearance="outline" class="custom-field">
+        <mat-label>Categoría de Jugador</mat-label>
+        <mat-select formControlName="playerCategory">
+          <mat-option *ngFor="let category of playerCategories" [value]="category">{{ category }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="form.get('playerCategory')?.touched && form.get('playerCategory')?.hasError('required')">
+          Seleccione una categoría de jugador.
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Campo de teléfono -->
+      <div formArrayName="phones" class="phones-container">
+        <div *ngFor="let phone of phones.controls; let i = index" class="phone-entry">
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-label>Número de Teléfono</mat-label>
+            <input matInput [formControlName]="i" placeholder="Ej. 123456" />
+        
+            <!-- Botón para eliminar teléfono -->
+            <button mat-icon-button matSuffix (click)="removePhone(i)" aria-label="Eliminar teléfono" class="password-toggle-button">
+              <mat-icon>delete</mat-icon>
+            </button>
+        
+            <mat-error *ngIf="phone.touched">
+              <ng-container *ngIf="phone.hasError('required')">
+                Número de teléfono es obligatorio.
+              </ng-container>
+              <ng-container *ngIf="phone.hasError('pattern')">
+                Número de teléfono inválido (debe tener entre 6 y 15 dígitos).
+              </ng-container>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>            
+
+      <div class="add-phone-button">
+        <button *ngIf="phones.length < maxPhones" mat-button (click)="addPhone()" class="submit-button">
+          Agregar teléfono
+        </button>                   
+      </div>
+
+      <!-- Botón de registro -->
+      <div class="register-button">
+        <button mat-raised-button type="submit" class="submit-button">
+          Registrarse con Google
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

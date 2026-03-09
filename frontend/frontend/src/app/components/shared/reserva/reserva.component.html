@@ -1,0 +1,57 @@
+<div class="form">
+  <div class="form__container">
+    <h1>Reserva</h1>
+
+    <form [formGroup]="form" (ngSubmit)="next()" novalidate>
+
+      <!-- Paletas y Pelotas -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Paletas</mat-label>
+          <input matInput formControlName="paletas" type="number" aria-label="Paletas" />
+          <mat-error *ngIf="form.get('paletas')?.touched && form.get('paletas')?.hasError('required')">
+            Este campo es obligatorio.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Pelotas</mat-label>
+          <input matInput formControlName="pelotas" type="number" aria-label="Pelotas" />
+          <mat-error *ngIf="form.get('pelotas')?.touched && form.get('pelotas')?.hasError('required')">
+            Este campo es obligatorio.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <!-- Botones de pago -->
+      <div class="payment-buttons">
+          <button mat-raised-button (click)="setPago('seña')" [class.active]="pago === 'seña'" type="button">
+          Pagar Seña
+          </button>
+          <button mat-raised-button (click)="setPago('total')" [class.active]="pago === 'total'" type="button">
+          Pagar Total
+          </button>
+      </div>
+      
+      <!-- Campo de precio -->
+      <div class="price-container">
+          <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Precio Total</mat-label>
+          <input matInput [value]="precio" readonly aria-label="Precio Total" />
+          </mat-form-field>
+      </div>
+      
+      <!-- Botón de registro -->
+      <div class="register-button">
+          <button mat-raised-button type="submit" class="submit-button">
+          Siguiente
+          </button>
+      </div>
+      <!-- Mostrar mensajes de error globales -->
+      <div *ngIf="errorMessages.length > 0" class="error-messages">
+        <ng-container *ngFor="let error of errorMessages">
+          <div>{{ error }}</div>
+        </ng-container>
+      </div>
+    </form>
+  </div>
+</div>

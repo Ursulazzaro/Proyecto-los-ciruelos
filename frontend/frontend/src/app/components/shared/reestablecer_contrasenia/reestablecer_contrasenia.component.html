@@ -1,0 +1,73 @@
+<div class="form">
+  <div class="form__container">
+    <h1>Reestablecer Contraseña</h1>
+    <form [formGroup]="cambioContraseniaForm" (ngSubmit)="onSubmit()">
+
+      <!-- Nueva contraseña -->
+      <div class="form-row">
+        <!-- Campo Contraseña -->
+        <mat-form-field appearance="outline" class="custom-field password-field">
+          <mat-label>Nueva contraseña</mat-label>
+          <input matInput
+                 [type]="hidePassword ? 'password' : 'text'"
+                 formControlName="newPassword"
+                 placeholder="Introduce tu nueva contraseña"
+                 (focus)="onFocusPassword()"
+                 (blur)="onBlurPassword()" />
+          <button mat-icon-button matSuffix
+                  (click)="togglePasswordVisibility('newPassword')"
+                  [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+                  type="button"
+                  class="password-toggle-button">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="cambioContraseniaForm.get('newPassword')?.touched || cambioContraseniaForm.get('newPassword')?.dirty">
+            <ng-container *ngIf="cambioContraseniaForm.get('newPassword')?.hasError('required')">
+              Este campo es obligatorio.
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Requisitos de contraseña -->
+        <div *ngIf="showPasswordRequirements" class="password-requirements">
+          <ul>
+              <li [class.valid]="passwordRequirements.minLength">Debe tener al menos 6 caracteres</li>
+              <li [class.valid]="passwordRequirements.hasUpperCase">Debe tener una letra mayúscula</li>
+              <li [class.valid]="passwordRequirements.hasNumber">Debe contener al menos un número</li>
+          </ul>
+        </div>
+        
+        <mat-form-field appearance="outline" class="custom-field password-field">
+          <mat-label>Confirmar nueva contraseña</mat-label>
+          <input matInput
+                 [type]="hideConfirmPassword ? 'password' : 'text'"
+                 formControlName="confirmNewPassword"
+                 (blur)="cambioContraseniaForm.updateValueAndValidity()" />
+          <button mat-icon-button matSuffix
+                  (click)="togglePasswordVisibility('confirmNewPassword')"
+                  [attr.aria-label]="hideConfirmPassword ? 'Mostrar contraseña' : 'Ocultar contraseña'"
+                  type="button"
+                  class="password-toggle-button">
+            <mat-icon>{{ hideConfirmPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="cambioContraseniaForm.get('confirmNewPassword')?.touched || cambioContraseniaForm.get('confirmNewPassword')?.dirty">
+            <ng-container *ngIf="cambioContraseniaForm.get('confirmNewPassword')?.hasError('required')">
+              Este campo es obligatorio.
+            </ng-container>
+            <ng-container *ngIf="cambioContraseniaForm.get('confirmNewPassword')?.hasError('mismatch')">
+              Las contraseñas no coinciden.
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+        
+      </div>
+
+      <!-- Botón de registro -->
+      <div class="register-button">
+        <button mat-raised-button type="submit" class="submit-button">
+          Actualizar Contraseña
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

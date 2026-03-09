@@ -1,0 +1,35 @@
+<div class="encabezado">
+    <div class="contenido">
+        <!-- Sección de beneficios -->
+        <div class="header">
+            <h1>Formando parte de nuestra comunidad</h1>
+            <h2>Podrías obtener los siguientes beneficios:</h2>
+
+            <ul>
+                <li>Descuentos exclusivos al momento de seleccionar tu reserva</li>
+                <li>Prioridad en reservas durante horarios pico.</li>
+                <li>Acceso a eventos y torneos exclusivos solo para miembros.</li>
+                <li>Descuentos en el alquiler de equipos deportivos.</li>
+                <li>Acceso a clases y entrenadores profesionales a precios reducidos.</li>
+                <li>Acceso anticipado a promociones y ofertas especiales.</li>
+                <li>Estadísticas sobre tu rendimiento y uso de las canchas.</li>
+            </ul>
+            <!-- Botón de asociarse -->
+            <button (click)="iniciarAsociacion()" class="btn-asociarse" >
+                Deseo Asociarme
+            </button>
+
+
+
+        </div>
+
+        <!-- Sección de testimonios -->
+        <div class="testimonios-container">
+            <h3 class="header">Lo que dicen nuestros miembros:</h3>
+            <div *ngFor="let testimonial of testimonials" class="testimonio-card">
+                <p class="italic">"{{ testimonial.text }}"</p>
+                <p class="autor">- {{ testimonial.name }}</p>
+            </div>
+        </div>
+    </div>
+</div>

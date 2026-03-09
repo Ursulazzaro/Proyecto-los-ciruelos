@@ -1,0 +1,27 @@
+<div class="form">
+  <div class="form__container">
+    <h1>Recuperación de Contraseña</h1>
+    <p class="description-text">
+      Se le enviará un correo electrónico de confirmación para recuperar su contraseña.
+    </p>
+    
+    <form [formGroup]="passwordResetForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="custom-field">
+        <mat-label>Correo Electrónico</mat-label>
+        <input matInput 
+               placeholder="Ingrese su correo electrónico" 
+               formControlName="email">
+        <mat-error class="error-text" *ngIf="email?.hasError('required') && email?.touched">
+          El correo electrónico es obligatorio.
+        </mat-error>
+        <mat-error class="error-text" *ngIf="email?.hasError('email') && email?.touched">
+          Por favor, ingrese un correo electrónico válido.
+        </mat-error>
+      </mat-form-field>
+
+      <div class="button-container">
+        <button mat-flat-button type="submit" class="submit-button">Enviar</button>
+      </div>
+    </form>
+  </div>
+</div>

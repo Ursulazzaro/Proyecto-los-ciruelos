@@ -1,0 +1,46 @@
+<div class="container">
+    <h1>Profesores</h1>
+
+    <!-- Campos de búsqueda -->
+    <div class="buscador-container">
+        <input 
+            type="text" 
+            placeholder="Buscar por email..." 
+            [(ngModel)]="email" 
+            class="buscador"
+        />
+        <input 
+            type="text" 
+            placeholder="Buscar por nombre..." 
+            [(ngModel)]="nombre" 
+            class="buscador"
+        />
+        <input 
+            type="text" 
+            placeholder="Buscar por apellido..." 
+            [(ngModel)]="apellido" 
+            class="buscador"
+        />
+        <button (click)="buscarProfesores()" class="submit-button">Buscar Profesor</button>
+    </div>
+
+    <!-- Lista de Profesores -->
+    <div class="profesores-lista">
+        <div *ngFor="let profesor of profesores" class="profesor-card">
+            <h2>{{ profesor.nombre }} {{ profesor.apellido }}</h2>
+            <p><strong>Categoria:</strong> {{ profesor.categoria }}</p>
+            <p><strong>Email:</strong> {{ profesor.email }}</p>
+
+            <!-- Lista de Teléfonos -->
+            <p><strong>Teléfonos:</strong></p>
+            <ul class="telefono-lista" *ngIf="profesor.telefonos.length > 0; else sinTelefonos">
+                <li *ngFor="let telefono of profesor.telefonos">
+                    📞 {{ telefono.numero }}
+                </li>
+            </ul>
+            <ng-template #sinTelefonos>
+                <p class="sin-telefonos">Sin teléfonos disponibles</p>
+            </ng-template>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+.form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;  /* Toma toda la altura de la pantalla */
+}
+
+.submit-button {
+    display: block;
+    margin: 20px auto; /* Centra horizontalmente */
+    text-align: center;
+}
+  
+.forgot-password {
+    display: flex; /* Convertir el contenedor en flexbox */
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente */
+}
+
+/* ✅ Centramos los campos de Email y Contraseña */
+.custom-field {
+    width: 80%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centrar */
+    margin: 0 auto 20px auto; /* Centrar con margen inferior */
+}
+
+/* ✅ Ajustar el botón de mostrar contraseña (hacerlo más grande) */
+.password-toggle-button {
+    background-color: transparent;
+    color: #000;
+    height: 50px; /* Aumentar tamaño */
+    width: 50px; /* Aumentar tamaño */
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 10px; /* Ajustar su posición */
+}
+
+/* ✅ Ajustar el icono del botón */
+.password-toggle-button .mat-icon {
+    font-size: 25px; /* Hacer el icono más grande */
+}
+
+

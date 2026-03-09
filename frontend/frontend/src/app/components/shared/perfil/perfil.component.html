@@ -1,0 +1,56 @@
+<div class="form">
+    <div class="form__container">
+        <h1>¡Hola, {{ perfilForm.get('nombre')?.value || 'Usuario' }}!</h1>
+  
+      <form [formGroup]="perfilForm" (ngSubmit)="guardarPerfil()" novalidate>
+  
+        <!-- Nombre y Apellido -->
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre" [readonly]="!modoEdicion" />
+            <mat-error *ngIf="perfilForm.get('nombre')?.touched && perfilForm.get('nombre')?.hasError('required')">
+              Este campo es obligatorio.
+            </mat-error>
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline" class="custom-field">
+            <mat-label>Apellido</mat-label>
+            <input matInput formControlName="apellido" [readonly]="!modoEdicion" />
+            <mat-error *ngIf="perfilForm.get('apellido')?.touched && perfilForm.get('apellido')?.hasError('required')">
+              Este campo es obligatorio.
+            </mat-error>
+          </mat-form-field>
+        </div>
+  
+        <!-- Correo -->
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Correo Electrónico</mat-label>
+          <input matInput formControlName="email" [readonly]="!modoEdicion" />
+          <mat-error *ngIf="perfilForm.get('email')?.touched">
+            <ng-container *ngIf="perfilForm.get('email')?.hasError('required')">
+              Este campo es obligatorio.
+            </ng-container>
+            <ng-container *ngIf="perfilForm.get('email')?.hasError('pattern')">
+              Correo electrónico inválido.
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Nivel de Juego -->
+        <mat-form-field appearance="outline" class="custom-field">
+          <mat-label>Nivel de Juego</mat-label>
+          <mat-select formControlName="nivelJuego" [disabled]="modoEdicion">
+            <mat-option *ngFor="let nivel of nivelesDeJuego" [value]="nivel">
+              {{ nivel }}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="perfilForm.get('nivelJuego')?.touched && perfilForm.get('nivelJuego')?.hasError('required')">
+            Seleccione un nivel de juego.
+          </mat-error>
+        </mat-form-field>
+        
+      </form>
+    </div>
+  </div>
+  

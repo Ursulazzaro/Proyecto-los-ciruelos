@@ -1,0 +1,234 @@
+
+
+    /* Fondo para la sección "Bienvenidos" hasta el calendario */
+    .encabezado {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+        padding: 60px 20px;
+        min-height: 100vh;
+        background-image: url('../../assets/images/john-fornander-y6_SJpU3Alk-unsplash.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .home_header {
+        text-align: center;
+        color: var(--white-text);
+        max-width: 1000px;
+        width: 100%;
+        position: relative;
+    }
+
+    .home_header h1 {
+        margin: 0;
+        font-size: 3rem;
+        font-weight: 600;
+        animation: slideIn 1s ease-out;
+    }
+
+    .home_header .description {
+        font-size: 2rem;
+        margin: 30px 0;
+        font-weight: 400;
+    }
+
+    /* Estilos del calendario */
+    .calendario {
+        margin-top: 30px; /* Ajuste para mantener 30px de separación */
+    }
+
+    /* Animación para el encabezado */
+    @keyframes slideIn {
+        from {
+            transform: translateY(-20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+/* ---------------------------------------- QUE OFRECEMOS ----------------------------------------------- */
+
+    .ofrecemos {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        padding: 60px 20px;
+        min-height: 100vh;
+        background-image: url('../../assets/images/manuel-pappacena-zTwzxr4BbTA-unsplash.jpg'); 
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .overlay {
+        position: absolute; /* Cambiado a absolute para cubrir toda la imagen */
+        top: 0; /* Alinea al borde superior */
+        left: 0; /* Alinea al borde izquierdo */
+        right: 0; /* Alinea al borde derecho */
+        bottom: 0; /* Alinea al borde inferior */
+        background: rgba(0, 0, 0, 0.5); /* Superposición oscura */
+        display: flex; /* Habilita flexbox para centrar contenido */
+        flex-direction: column; /* Dirección de flex hacia abajo */
+        align-items: center; /* Centrar horizontalmente */
+        justify-content: center; /* Centrar verticalmente */
+    }
+
+    .ofrecemos__title {
+        font-size: 2.5rem;
+        color: #fff; /* Color del texto en blanco */
+        margin-bottom: 40px; /* Espaciado debajo del título */
+    }
+
+    .features-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .feature {
+        background: var(--background-accent); /* Usa la variable para el color de fondo */
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 300px; /* Ancho fijo para que todas las características tengan el mismo tamaño */
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+        border: 1px solid var(--button-color-secondary); /* Usa la variable para el borde */
+    }
+
+    .feature:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature.clickable {
+        cursor: pointer; /* Cambia el cursor a un puntero al pasar el mouse */
+    }
+
+    .feature h2 {
+        font-size: 1.5rem;
+        color: var(--text); /* Usa la variable para el color del texto */
+        margin: 15px 0;
+    }
+
+    .feature p {
+        font-size: 1rem;
+        color: var(--text); /* Color del texto en las características */
+    }
+
+/* ---------------------------------------- QUIENES SOMOS ----------------------------------------------- */
+
+    .descripcion {
+        max-width: 800px; /* Ancho máximo */
+        margin: 0 auto; /* Centrar la sección horizontalmente */
+        padding: 20px;
+        min-height: 80vh; /* Altura mínima de la sección */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Centrar el contenido verticalmente */
+
+    }
+
+    .descripcion h1 {
+        font-size: 3rem; /* Aumentar el tamaño de fuente del título */
+        color: var(--text); /* Color del texto, usando la variable */
+        margin-bottom: 20px; /* Espaciado debajo del título */
+    }
+
+    .descripcion p {
+        font-size: 1.5rem; /* Aumentar el tamaño de fuente del párrafo */
+        color: var(--textx); /* Color del texto */
+        line-height: 1.8; /* Altura de línea para mejorar la legibilidad */
+        margin: 0; /* Sin margen por defecto */
+    }
+
+/* ---------------------------------------- DONDE ESTAMOS ----------------------------------------------- */
+
+    .ubicacion {
+        max-width: 800px; /* Ancho máximo */
+        margin: 0 auto; /* Centrar la sección horizontalmente */
+        padding: 20px;
+        min-height: 80vh; /* Altura mínima de la sección */
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Centrar el contenido verticalmente */
+    }
+
+    .ubicacion h1 {
+        font-size: 3rem; /* Aumentar el tamaño de fuente del título */
+        color: var(--text); /* Color del texto, usando la variable */
+        margin-bottom: 20px; /* Espaciado debajo del título */
+    }
+
+    .ubicacion p {
+        font-size: 1.2rem; /* Tamaño de fuente del párrafo */
+        color: var(--textx); /* Color del texto */
+        line-height: 1.6; /* Altura de línea para mejorar la legibilidad */
+    }
+
+    .map-container {
+        width: 100%;
+        max-width: 800px;
+        margin: auto;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+/* ---------------------------------------- INFORMACION SOBRE EL CLUB ----------------------------------------------- */
+
+    .informacion {
+        position: relative;
+        display: flex;
+        justify-content: flex-start; /* Mantiene el contenido alineado a la izquierda */
+        align-items: center; /* Centra verticalmente */
+        padding: 60px 20px;
+        min-height: 100vh;
+        background-image: url('../../assets/images/oskar-hagberg-3sSbRisCnmE-unsplash.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    .features-container-informacion {
+        display: flex;
+        flex-direction: column; /* Mantiene las características en columna */
+        justify-content: center; /* Alinea verticalmente al centro */
+        gap: 0; /* Eliminado para manejar el espaciado a través de bordes */
+        width: 50%; /* El ancho del contenedor ocupa la mitad de la imagen */
+        height: 100%; /* El alto del contenedor ocupa todo el alto de la imagen */
+        background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro semitransparente */
+        padding: 40px;
+        position: absolute; /* Permite que se superponga sobre la imagen */
+        left: 0; /* Alinea el contenedor a la izquierda */
+        top: 0; /* Inicia desde la parte superior de la imagen */
+        height: calc(100% - 10%); /* Ajusta según el padding o márgenes */
+    }
+
+    .feature-informacion {
+        padding: 20px;
+        width: 100%; /* Ocupar todo el ancho del contenedor */
+        text-align: left;
+        color: var(--white-text);
+        border-bottom: 2px solid var(--white-text); /* Línea divisoria entre características */
+    }
+
+    .feature-informacion:last-child {
+        border-bottom: none; /* Elimina la línea en el último elemento */
+    }
+
+    .feature-informacion h2 {
+        font-size: 3rem; /* Aumenta el tamaño de la fuente */
+        color: var(--white-text); /* Usa la variable para el color del texto */
+    }
+
+    .feature-informacion p {
+        font-size: 1.5rem; /* Aumenta el tamaño de la fuente del texto */
+        color: var(--white-text); /* Color del texto en las características */
+        margin: 10px 0; /* Ajusta el margen del párrafo */
+    }
