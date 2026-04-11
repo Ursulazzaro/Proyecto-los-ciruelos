@@ -1,6 +1,7 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
-package.json
+# Porque esta package.json en git ignore???
+# package.json
 styles.css
 
 
