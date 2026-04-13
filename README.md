@@ -1,12 +1,4 @@
 # Seminario
-
-NOMBRE DE LOS INTEGRANTES:
-
-        - Iñaki Jose Zelayeta
-        - Bruno Alejo Santillan
-        - Katerina Mariescurrena 
-        - Lazzaro Ursula
-
 INFORMACION:
 
 2. Formato de escritura de los commits:
