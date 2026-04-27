@@ -112,11 +112,11 @@ export class TicketComponent {
             }
           ],
           back_urls: {
-            success: `http://localhost:4200/procesar-pago?asociacion=true`,
-            failure: 'http://localhost:4200/ticket',
-            pending: 'http://localhost:4200/ticket'
+            success: `https://ivanyromero.com.ar/redir/procesar-pago?asociacion=true`,
+            failure: 'https://ivanyromero.com.ar/redir/ticket',
+            pending: 'https://ivanyromero.com.ar/redir/ticket'
           },
-          // auto_return: 'approved',
+          auto_return: 'approved',
         };
   
         this.mercadopagoService.createPreference(preference).subscribe(response => {
@@ -127,6 +127,14 @@ export class TicketComponent {
       }
 
     } else {
+      const params = new URLSearchParams({
+        date: this.date,
+        horario_inicio_ocupado: this.horario_inicio_ocupado!,
+        court: this.court!,
+        price: this.price.toString(),
+        senia: this.senia!,
+        horario_fin_ocupado: this.horario_fin_ocupado!
+      }).toString();
       const preference = {
         items: [
           {
@@ -137,11 +145,11 @@ export class TicketComponent {
           }
         ],
         back_urls: {
-          success: `http://localhost:4200/procesar-pago?date=${this.date}&horario_inicio_ocupado=${this.horario_inicio_ocupado}&court=${this.court}&price=${this.price}&senia=${this.senia}&horario_fin_ocupado=${this.horario_fin_ocupado}`,
-          failure: 'http://localhost:4200/ticket',
-          pending: 'http://localhost:4200/ticket'
+          success: `https://ivanyromero.com.ar/redir/procesar-pago?${params}`,
+          failure: 'https://ivanyromero.com.ar/redir/ticket',
+          pending: 'https://ivanyromero.com.ar/redir/ticket'
         },
-        //auto_return: 'approved',
+        auto_return: 'approved',
       };
 
       this.mercadopagoService.createPreference(preference).subscribe(response => {
@@ -157,13 +165,16 @@ export class TicketComponent {
 
     console.log('loadMercadoPago - ID de preferencia:', preferenceId);
 
-    const mp = new (window as any).MercadoPago('TEST-2616ace3-4e89-4e85-a7b1-e1fc6746f2cf', {
+    const mp = new (window as any).MercadoPago('APP_USR-3fe674c6-f1f4-4ad5-948b-94660f9511cb', {
       locale: 'es-AR'
     });
 
     const bricksBuilder = mp.bricks();
     bricksBuilder.create('wallet', 'wallet_container', {
-      initialization: { preferenceId: preferenceId, redirectMode: 'modal' },
+      initialization: { preferenceId: preferenceId
+        // Comento para que redireccione sin modal
+        // , redirectMode: 'modal'
+       },
       customization: {
         texts: {
           action: 'buy',
