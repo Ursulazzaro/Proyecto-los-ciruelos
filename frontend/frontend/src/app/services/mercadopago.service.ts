@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class MercadopagoService {
   // Usa tu token de acceso en la URL de la API
-  private accessToken = 'APP_USR-5356347604739108-020916-65561a50ec097c174f39c33d1e554d9b-1954862914';
+  private accessToken = 'TEST-6156321432564867-041223-d98d17a237558ddb99e27ba6ac7651d8-409557085';
   private baseUrl = 'https://api.mercadopago.com/checkout/preferences';
 
   constructor(private http: HttpClient) { }

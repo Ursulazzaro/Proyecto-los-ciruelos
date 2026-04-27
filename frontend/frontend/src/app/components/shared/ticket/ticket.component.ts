@@ -79,6 +79,7 @@ export class TicketComponent {
       }
     });
 
+    /* CODIGO DUPLICADO
     // Verificar si el usuario está autenticado antes de proceder con el pago
     if (!this.authService.isAuthenticated()) {
       // Si el usuario no está autenticado, redirigirlo al login
@@ -87,6 +88,7 @@ export class TicketComponent {
       // Si está autenticado, proceder con la creación de la preferencia
       this.redirectToMercadoPago();
     }
+    */
   }
 
   goHome(): void {
@@ -95,6 +97,9 @@ export class TicketComponent {
 
   // Función para redirigir al usuario a Mercado Pago
   redirectToMercadoPago() {
+
+    console.log('redirectToMercadoPago - Es asociar: ', this.esAsociacion);
+
     if (this.esAsociacion) {
       if (this.configuracion) {
         const preference = {
@@ -111,7 +116,7 @@ export class TicketComponent {
             failure: 'http://localhost:4200/ticket',
             pending: 'http://localhost:4200/ticket'
           },
-          auto_return: 'approved',
+          // auto_return: 'approved',
         };
   
         this.mercadopagoService.createPreference(preference).subscribe(response => {
@@ -136,7 +141,7 @@ export class TicketComponent {
           failure: 'http://localhost:4200/ticket',
           pending: 'http://localhost:4200/ticket'
         },
-        auto_return: 'approved',
+        //auto_return: 'approved',
       };
 
       this.mercadopagoService.createPreference(preference).subscribe(response => {
@@ -149,7 +154,10 @@ export class TicketComponent {
   }
 
   loadMercadoPago(preferenceId: string) {
-    const mp = new (window as any).MercadoPago('APP_USR-762225fb-73cd-4033-b1ad-4b16b6f579da', {
+
+    console.log('loadMercadoPago - ID de preferencia:', preferenceId);
+
+    const mp = new (window as any).MercadoPago('TEST-2616ace3-4e89-4e85-a7b1-e1fc6746f2cf', {
       locale: 'es-AR'
     });
 
