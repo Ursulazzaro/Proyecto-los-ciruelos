@@ -140,9 +140,9 @@ public class PagoService {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "client_credentials");
         // Client_id de la cuenta a depositar
-        body.add("client_id", "6872871786610767");
+        body.add("client_id", "1027101980086324");
         // Client_secret de la cueta a depositar
-        body.add("client_secret", "UKIcaPM5E9Omg3gyYW0tNqCJMeZAaM3G");
+        body.add("client_secret", "fhZ2e6MYwzbUnrvvfDEIlobKtxRezdqH");
 
         // Crear la entidad HTTP que contiene el cuerpo de la solicitud y los headers
         HttpEntity<Object> request = new HttpEntity<>(body,headers);
