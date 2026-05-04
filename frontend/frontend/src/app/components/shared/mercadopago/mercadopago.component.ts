@@ -9,7 +9,7 @@ import { MercadopagoService } from '../../../services/mercadopago.service';
 export class MercadopagoComponent {
   ngOnInit(): void {
     // Inicializa Mercado Pago con tu clave pública 
-    const mp = new (window as any).MercadoPago('APP_USR-e221c611-71c8-4c31-aa97-fbdc91b11784', {
+    const mp = new (window as any).MercadoPago('APP_USR-3fe674c6-f1f4-4ad5-948b-94660f9511cb', {
       locale: 'es-AR'
     });
 
