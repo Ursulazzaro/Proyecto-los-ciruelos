@@ -9,79 +9,42 @@ import { ApiService } from '../../../api.service';
 })
 export class PerfilComponent implements OnInit {
   perfilForm!: FormGroup;
-  modoEdicion: boolean = false;
+  modoEdicion = false;
   datosOriginales: any = {};
-  maxPhones: number = 3; // Máximo de teléfonos permitidos
+  fotoPerfil: string | null = null;
+  maxPhones = 3;
+  fotoOriginal: string | null = null;
 
   nivelesDeJuego: string[] = [
     'Primera', 'Segunda', 'Tercera', 'Cuarta', 'Quinta', 'Sexta', 'Séptima', 'Principiante'
   ];
 
-  constructor(private fb: FormBuilder, private api: ApiService) {}
+constructor(
+  private fb: FormBuilder,
+  private api: ApiService
+) {}
 
   ngOnInit(): void {
     this.perfilForm = this.fb.group({
       nombre: ['', [Validators.required, Validators.maxLength(25)]],
       apellido: ['', [Validators.required, Validators.maxLength(30)]],
-      email: ['', [
-        Validators.required,
-        Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/)
-      ]],
-      codigoArea: ['', [
-        Validators.required,
-        Validators.pattern(/^\d{1,3}$/) // Hasta 3 dígitos numéricos
-      ]],
-      nivelJuego: [{ value: '', disabled: true }, [Validators.required]],
-      phones: this.fb.array([this.createPhoneControl()]) // Lista de teléfonos
+      email: ['', [Validators.required]],
+      nivelJuego: ['', [Validators.required]],
+      phones: this.fb.array([])
     });
 
     this.cargarDatosIniciales();
   }
 
-  // Función para crear un control de teléfono
-  createPhoneControl(): any {
-    return this.fb.control('', [
+  createPhoneControl(valor: string = '') {
+    return this.fb.control(valor, [
       Validators.required,
-      Validators.pattern(/^\d{6,15}$/) // Teléfono entre 6 y 15 dígitos
+      Validators.pattern(/^\d{6,15}$/)
     ]);
   }
 
-  // Función para agregar un teléfono
-  addPhone(): void {
-    if (this.phones.length < this.maxPhones) {
-      this.phones.push(this.createPhoneControl());
-    }
-  }
-
-  // Función para eliminar un teléfono
-  removePhone(index: number): void {
-    if (this.phones.length > 1) {
-      this.phones.removeAt(index);
-    }
-  }
-
-  // Función para obtener los teléfonos del formulario
   get phones(): FormArray {
     return this.perfilForm.get('phones') as FormArray;
-  }
-
-  activarEdicion(): void {
-    this.modoEdicion = true;
-    this.datosOriginales = { ...this.perfilForm.value }; // Guardamos los datos originales
-  }
-
-  guardarPerfil(): void {
-    if (this.perfilForm.valid) {
-      console.log('Perfil actualizado con éxito:', this.perfilForm.value);
-      this.modoEdicion = false;
-    } else {
-      this.perfilForm.markAllAsTouched();
-    }
-  }
-
-  cancelarEdicion(): void {
-    this.perfilForm.patchValue(this.datosOriginales); // Restauramos los valores originales
-    this.modoEdicion = false;
   }
 
   cargarDatosIniciales(): void {
@@ -91,13 +54,109 @@ export class PerfilComponent implements OnInit {
           nombre: datosUsuario.nombre,
           apellido: datosUsuario.apellido,
           email: datosUsuario.email,
-          telefono: 2214375254,
           nivelJuego: datosUsuario.categoria
         });
+
+        this.phones.clear();
+
+        if (datosUsuario.telefonos && datosUsuario.telefonos.length > 0) {
+          datosUsuario.telefonos.forEach((tel: any) => {
+            this.phones.push(this.createPhoneControl(String(tel.numero)));
+          });
+        } else {
+          this.phones.push(this.createPhoneControl());
+        }
+
+        this.datosOriginales = this.perfilForm.getRawValue();
       },
       error: (error) => {
         console.error('Error al cargar el perfil:', error);
       }
     });
   }
+
+  activarEdicion(): void {
+    this.modoEdicion = true;
+    this.datosOriginales = this.perfilForm.getRawValue();
+    this.fotoOriginal = this.fotoPerfil;
+  }
+
+  eliminarFoto(): void {
+    this.fotoPerfil = null;
+  }
+  cancelarEdicion(): void {
+    this.perfilForm.patchValue(this.datosOriginales);
+
+    this.phones.clear();
+    this.datosOriginales.phones.forEach((tel: string) => {
+      this.phones.push(this.createPhoneControl(tel));
+    });
+
+    this.fotoPerfil = this.fotoOriginal;
+    this.modoEdicion = false;
+  }
+
+  addPhone(): void {
+    if (this.phones.length < this.maxPhones) {
+      this.phones.push(this.createPhoneControl());
+    }
+  }
+
+  removePhone(index: number): void {
+    if (this.phones.length > 1) {
+      this.phones.removeAt(index);
+    }
+  }
+
+  cambiarFoto(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.fotoPerfil = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+
+guardarPerfil(): void {
+  console.log('Click en guardar');
+  console.log('Form válido:', this.perfilForm.valid);
+  console.log('Form completo:', this.perfilForm.getRawValue());
+  console.log('Phones:', this.phones.value);
+
+  if (this.perfilForm.invalid) {
+    this.perfilForm.markAllAsTouched();
+    return;
+  }
+
+  const usuarioDTO = {
+    nombre: this.perfilForm.get('nombre')?.value,
+    apellido: this.perfilForm.get('apellido')?.value,
+    categoria: this.perfilForm.get('nivelJuego')?.value,
+    telefonos: this.phones.value.map((telefono: string) => ({
+      codigo: 0,
+      numero: Number(telefono)
+    }))
+  };
+
+  console.log('Enviando usuarioDTO:', usuarioDTO);
+
+  this.api.modificarPerfil(usuarioDTO).subscribe({
+    next: () => {
+      console.log('Perfil actualizado correctamente');
+      this.modoEdicion = false;
+      this.datosOriginales = this.perfilForm.getRawValue();
+      this.fotoOriginal = this.fotoPerfil;
+    },
+    error: (error) => {
+      console.error('Status:', error.status);
+console.error('Error body:', error.error);
+console.error('Message:', error.message);
+console.error('URL:', error.url);
+    }
+  });
+}
 }

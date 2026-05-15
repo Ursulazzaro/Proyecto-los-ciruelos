@@ -1,56 +1,137 @@
-<div class="form">
-    <div class="form__container">
-        <h1>¡Hola, {{ perfilForm.get('nombre')?.value || 'Usuario' }}!</h1>
-  
-      <form [formGroup]="perfilForm" (ngSubmit)="guardarPerfil()" novalidate>
-  
-        <!-- Nombre y Apellido -->
-        <div class="form-row">
-          <mat-form-field appearance="outline" class="custom-field">
-            <mat-label>Nombre</mat-label>
-            <input matInput formControlName="nombre" [readonly]="!modoEdicion" />
-            <mat-error *ngIf="perfilForm.get('nombre')?.touched && perfilForm.get('nombre')?.hasError('required')">
-              Este campo es obligatorio.
-            </mat-error>
-          </mat-form-field>
-  
-          <mat-form-field appearance="outline" class="custom-field">
-            <mat-label>Apellido</mat-label>
-            <input matInput formControlName="apellido" [readonly]="!modoEdicion" />
-            <mat-error *ngIf="perfilForm.get('apellido')?.touched && perfilForm.get('apellido')?.hasError('required')">
-              Este campo es obligatorio.
-            </mat-error>
-          </mat-form-field>
+<div class="page-layout">
+  <div class="premium-card">
+
+    <div class="premium-header profile-header">
+      <div class="avatar-wrapper">
+
+        <img *ngIf="fotoPerfil" [src]="fotoPerfil" alt="Foto de perfil" class="avatar-img" />
+
+        <div *ngIf="!fotoPerfil" class="avatar-placeholder">
+          {{ perfilForm.get('nombre')?.value?.charAt(0) || 'U' }}
         </div>
-  
-        <!-- Correo -->
-        <mat-form-field appearance="outline" class="custom-field">
-          <mat-label>Correo Electrónico</mat-label>
-          <input matInput formControlName="email" [readonly]="!modoEdicion" />
-          <mat-error *ngIf="perfilForm.get('email')?.touched">
-            <ng-container *ngIf="perfilForm.get('email')?.hasError('required')">
-              Este campo es obligatorio.
-            </ng-container>
-            <ng-container *ngIf="perfilForm.get('email')?.hasError('pattern')">
-              Correo electrónico inválido.
-            </ng-container>
+
+        <div class="photo-actions" *ngIf="modoEdicion">
+          <label class="change-photo-button">
+            Cambiar foto
+            <input type="file" accept="image/*" hidden (change)="cambiarFoto($event)" />
+          </label>
+
+          <button *ngIf="fotoPerfil" type="button" class="remove-photo-button" (click)="eliminarFoto()">
+            Eliminar foto
+          </button>
+        </div>
+
+      </div>
+
+      <div class="profile-title">
+        <h1>
+          {{ perfilForm.get('nombre')?.value || 'Usuario' }}
+          {{ perfilForm.get('apellido')?.value || '' }}
+        </h1>
+
+        <p>{{ perfilForm.get('email')?.value }}</p>
+
+        <span class="premium-badge">
+          {{ perfilForm.get('nivelJuego')?.value || 'Sin categoría' }}
+        </span>
+      </div>
+    </div>
+
+    <form class="premium-content" [formGroup]="perfilForm" (ngSubmit)="guardarPerfil()" novalidate>
+
+      <div class="section-title">
+        <h2>Información personal</h2>
+        <p>Datos principales de tu cuenta.</p>
+      </div>
+
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre" [readonly]="!modoEdicion" />
+          <mat-error *ngIf="perfilForm.get('nombre')?.hasError('required')">
+            Este campo es obligatorio.
           </mat-error>
         </mat-form-field>
 
-        <!-- Nivel de Juego -->
-        <mat-form-field appearance="outline" class="custom-field">
-          <mat-label>Nivel de Juego</mat-label>
-          <mat-select formControlName="nivelJuego" [disabled]="modoEdicion">
-            <mat-option *ngFor="let nivel of nivelesDeJuego" [value]="nivel">
-              {{ nivel }}
-            </mat-option>
-          </mat-select>
-          <mat-error *ngIf="perfilForm.get('nivelJuego')?.touched && perfilForm.get('nivelJuego')?.hasError('required')">
-            Seleccione un nivel de juego.
+        <mat-form-field appearance="outline">
+          <mat-label>Apellido</mat-label>
+          <input matInput formControlName="apellido" [readonly]="!modoEdicion" />
+          <mat-error *ngIf="perfilForm.get('apellido')?.hasError('required')">
+            Este campo es obligatorio.
           </mat-error>
         </mat-form-field>
-        
-      </form>
-    </div>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo electrónico</mat-label>
+        <input matInput formControlName="email" readonly />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Categoría</mat-label>
+        <mat-select formControlName="nivelJuego" [disabled]="!modoEdicion">
+          <mat-option *ngFor="let nivel of nivelesDeJuego" [value]="nivel">
+            {{ nivel }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="section-title">
+        <h2>Teléfonos</h2>
+        <p>Podés cargar hasta {{ maxPhones }} teléfonos.</p>
+      </div>
+
+      <div formArrayName="phones" class="phones-grid">
+        <div *ngFor="let phone of phones.controls; let i = index" class="phone-item">
+          <mat-form-field appearance="outline">
+            <mat-label>Teléfono {{ i + 1 }}</mat-label>
+            <input matInput [formControlName]="i" [readonly]="!modoEdicion" />
+
+            <button
+              *ngIf="modoEdicion && phones.length > 1"
+              mat-icon-button
+              matSuffix
+              type="button"
+              (click)="removePhone(i)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+
+            <mat-error *ngIf="phone.hasError('required')">
+              El teléfono es obligatorio.
+            </mat-error>
+
+            <mat-error *ngIf="phone.hasError('pattern')">
+              Debe tener entre 6 y 15 dígitos.
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <button
+        *ngIf="modoEdicion && phones.length < maxPhones"
+        type="button"
+        class="secondary-button"
+        (click)="addPhone()"
+      >
+        Agregar teléfono
+      </button>
+
+      <div class="actions">
+        <button *ngIf="!modoEdicion" type="button" class="primary-button" (click)="activarEdicion()">
+          Editar perfil
+        </button>
+
+        <button *ngIf="modoEdicion" type="submit" class="primary-button">
+          Guardar cambios
+        </button>
+
+        <button *ngIf="modoEdicion" type="button" class="cancel-button" (click)="cancelarEdicion()">
+          Cancelar
+        </button>
+      </div>
+
+    </form>
+
   </div>
-  
+</div>

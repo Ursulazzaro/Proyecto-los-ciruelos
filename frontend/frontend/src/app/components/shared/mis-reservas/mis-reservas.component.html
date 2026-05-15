@@ -1,38 +1,125 @@
-<div class="contenedor">
-    <h1 class="titulo">Mis Reservas</h1>
+<div class="page-layout">
 
-    <!-- Filtros -->
-    <div class="filtros">
-        <input type="date" [(ngModel)]="filtro.fecha" (change)="filtrarReservas()">
-        
-        <!-- Botones de filtro de canchas -->
-        <div class="categorias">
-            <button *ngFor="let cancha of canchas" 
-                [class.active]="filtro.cancha === cancha" 
-                (click)="seleccionarCancha(cancha)">
-                {{ cancha }}
-            </button>
-        </div>
+  <div class="premium-card">
+
+    <div class="premium-header">
+      <div class="reservas-title">
+
+        <h1>
+          Mis Reservas
+        </h1>
+
+        <p>
+          Consultá tus turnos, horarios y estado de reservas.
+        </p>
+
+        <span class="premium-badge">
+          {{ reservasFiltradas.length }} reservas
+        </span>
+
+      </div>
     </div>
 
-    <div class="lista-reservas" *ngIf="reservas.length > 0; else noReservas">
-        <div *ngFor="let reserva of reservas" class="reserva-card">
-            <p><strong>Fecha:</strong> {{ reserva.turno.fecha }}</p>
-            <p><strong>Horario:</strong> {{ reserva.turno.horarioInicio }} - {{ reserva.turno.horario_fin }}</p>
-            <p><strong>Cancha:</strong> N° {{ reserva.turno.cancha.numero }}</p>
-            <p><strong>Pelotas:</strong> {{ reserva.cantidad_pelotas }}</p>
-            <p><strong>Paletas:</strong> {{ reserva.cantidad_paletas }}</p>
-            <p><strong>Estado:</strong> {{ reserva.estado }}</p>
-    
-            <!-- Mostrar botón solo si la reserva NO está cancelada y la fecha NO ha pasado 
-            <button class="boton-cancelar" *ngIf="!esReservaCanceladaOExpirada(reserva)" (click)="cancelarReserva(reserva.id)">
-                Cancelar Reserva
-            </button> -->
-        </div>
-    </div>    
+    <div class="premium-content">
 
-    <!-- Mensaje cuando no hay reservas -->
-    <ng-template #noReservas>
-        <p class="mensaje-vacio">No tienes reservas registradas.</p>
-    </ng-template>
+      <div class="filtros">
+
+        <input
+          type="date"
+          [(ngModel)]="filtro.fecha"
+          (change)="filtrarReservas()"
+        >
+
+        <div class="categorias">
+
+          <button
+            *ngFor="let cancha of canchas"
+            [class.active]="filtro.cancha === cancha"
+            (click)="seleccionarCancha(cancha)"
+          >
+            {{ cancha }}
+          </button>
+
+        </div>
+
+      </div>
+
+      <div
+        class="lista-reservas"
+        *ngIf="reservasFiltradas.length > 0; else noReservas"
+      >
+
+        <div
+          *ngFor="let reserva of reservasFiltradas"
+          class="reserva-card"
+        >
+
+          <h2>
+            Cancha {{ reserva.turno.cancha.numero }}
+          </h2>
+
+          <div class="info">
+
+            <div class="info-item">
+              <span class="label">Fecha</span>
+              <span class="valor">{{ reserva.turno.fecha }}</span>
+            </div>
+
+            <div class="info-item">
+              <span class="label">Horario</span>
+              <span class="valor">
+                {{ reserva.turno.horarioInicio }}
+                -
+                {{ reserva.turno.horario_fin }}
+              </span>
+            </div>
+
+            <div class="info-item">
+              <span class="label">Pelotas</span>
+              <span class="valor">{{ reserva.cantidad_pelotas }}</span>
+            </div>
+
+            <div class="info-item">
+              <span class="label">Paletas</span>
+              <span class="valor">{{ reserva.cantidad_paletas }}</span>
+            </div>
+
+            <div class="info-item">
+              <span class="label">Estado</span>
+
+              <span
+                class="estado"
+                [ngClass]="{
+                  'estado-confirmada': reserva.estado !== 'Cancelada',
+                  'estado-cancelada': reserva.estado === 'Cancelada'
+                }"
+              >
+                {{ reserva.estado }}
+              </span>
+            </div>
+
+          </div>
+
+          <button
+            class="boton-cancelar"
+            *ngIf="!esReservaCanceladaOExpirada(reserva)"
+            (click)="cancelarReserva(reserva.id)"
+          >
+            Cancelar Reserva
+          </button>
+
+        </div>
+
+      </div>
+
+      <ng-template #noReservas>
+        <div class="mensaje-vacio">
+          No tenes reservas registradas.
+        </div>
+      </ng-template>
+
+    </div>
+
+  </div>
+
 </div>

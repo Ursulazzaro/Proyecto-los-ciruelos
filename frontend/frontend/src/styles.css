@@ -161,3 +161,76 @@ html, body {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* =========================
+   LAYOUT PREMIUM COMPARTIDO
+========================= */
+
+.page-layout {
+  min-height: 100vh;
+  padding: 50px 20px;
+  background:
+    radial-gradient(circle at top left, rgba(45, 106, 79, 0.18), transparent 35%),
+    linear-gradient(135deg, #f4f7f5, #ffffff);
+
+  display: flex;
+  justify-content: center;
+}
+
+.premium-card {
+  width: 100%;
+  max-width: 1050px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.14);
+}
+
+.premium-header {
+  padding: 42px;
+  background: linear-gradient(135deg, #2d6a4f, #40916c);
+  color: white;
+}
+
+.premium-header h1 {
+  margin: 0;
+  font-size: 38px;
+  font-weight: 850;
+  letter-spacing: -1px;
+}
+
+.premium-header p {
+  margin: 10px 0 16px;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+.premium-badge {
+  display: inline-block;
+  padding: 9px 18px;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: white;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.premium-content {
+  padding: 38px 42px 42px;
+}
+
+@media (max-width: 850px) {
+
+  .premium-header {
+    padding: 34px 24px;
+  }
+
+  .premium-header h1 {
+    font-size: 32px;
+  }
+
+  .premium-content {
+    padding: 30px 22px;
+  }
+}

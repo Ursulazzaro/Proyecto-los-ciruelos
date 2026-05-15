@@ -1,119 +1,182 @@
-/* Contenedor principal */
-.contenedor {
-    max-width: 800px;
-    margin: 80px auto 50px;
-    padding: 20px;
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    background: #e1fcee; /* Fondo más claro para destacar */
-    border-radius: 15px;
-    box-shadow: 0 4px 10px var(--title-shadow);
-}
-
-/* Título */
-.titulo {
-    font-size: 2em;
-    margin-bottom: 20px;
-    color: var(--text);
-    font-weight: bold;
-
-}
-
-/* Filtros */
 .filtros {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    align-items: center;
-    margin-bottom: 20px;
+  background: #f8fbf9;
+  padding: 24px;
+  border-radius: 24px;
+  border: 1px solid #edf2ef;
+  margin-bottom: 34px;
 }
 
-/* Input de fecha */
 .filtros input {
-    padding: 10px;
-    font-size: 1em;
-    border: 1px solid var(--pass-time);
-    border-radius: 8px;
-    outline: none;
-    transition: border-color 0.3s;
-    background: #e1fcee;
-    color: var(--text);
+  width: 100%;
+  padding: 15px;
+  border-radius: 16px;
+  border: 1px solid #dfe5e1;
+  background: white;
+  font-size: 15px;
+  margin-bottom: 18px;
+  font-weight: 500;
 }
 
-.filtros input:hover,
 .filtros input:focus {
-    border-color: var(--button-color-primary);
+  outline: none;
+  border-color: #40916c;
 }
 
-/* Categorías (botones de cancha) */
 .categorias {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .categorias button {
-    padding: 10px 15px;
-    font-size: 1em;
-    background: #e1fcee;
-    color: var(--text);
-    border: none;
-    cursor: pointer;
-    border-radius: 30px;
-    transition: background 0.3s, transform 0.2s;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: #edf7f1;
+  color: #2d6a4f;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .categorias button:hover {
-    background: var(--button-color-primary);
-    transform: scale(1.05);
+  transform: translateY(-2px);
 }
 
 .categorias button.active {
-    background: var(--button-color-primary);
-    color: var(--text);
+  background: linear-gradient(135deg, #2d6a4f, #40916c);
+  color: white;
+  box-shadow: 0 10px 20px rgba(45, 106, 79, 0.25);
 }
 
-/* Lista de reservas */
 .lista-reservas {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
 }
 
-/* Tarjeta de reserva */
 .reserva-card {
-    background: var(--white-text);
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px var(--title-shadow);
-    text-align: left;
-    transition: transform 0.2s;
-    color: var(--text);
+  background: white;
+  border-radius: 26px;
+  padding: 26px;
+  border: 1px solid #edf2ef;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.07);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .reserva-card:hover {
-    transform: scale(1.02);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 36px rgba(0,0,0,0.11);
 }
 
-/* Botón cancelar */
+.reserva-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(135deg, #2d6a4f, #40916c);
+}
+
+.reserva-card h2 {
+  margin: 0 0 22px;
+  font-size: 25px;
+  color: #1f1f1f;
+  font-weight: 800;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.label {
+  color: #7a7a7a;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.valor {
+  color: #1f1f1f;
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.estado {
+  padding: 8px 15px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.estado-confirmada {
+  background: #e8f5e9;
+  color: #2d6a4f;
+}
+
+.estado-cancelada {
+  background: #ffebee;
+  color: #b00020;
+}
+
 .boton-cancelar {
-    margin-top: 10px;
-    padding: 8px 12px;
-    background: var(--accent);
-    color: var(--white-text);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
+  width: 100%;
+  margin-top: 24px;
+  border: none;
+  padding: 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #b00020, #d62828);
+  color: white;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
 .boton-cancelar:hover {
-    background: var(--button-hover-color);
+  transform: scale(1.02);
 }
 
-/* Mensaje cuando no hay reservas */
 .mensaje-vacio {
-    font-size: 18px;
-    color: var(--text);
+  background: #f8fbf9;
+  padding: 70px 20px;
+  border-radius: 26px;
+  text-align: center;
+  color: #777;
+  font-size: 21px;
+  font-weight: 700;
+  border: 1px solid #edf2ef;
+}
+
+@media (max-width: 850px) {
+
+  .lista-reservas {
+    grid-template-columns: 1fr;
+  }
+
+  .reservas-content {
+    padding: 30px 22px;
+  }
+
+  .reservas-header {
+    padding: 34px 24px;
+  }
+
+  .reservas-title h1 {
+    font-size: 32px;
+  }
 }

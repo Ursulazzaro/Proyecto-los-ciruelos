@@ -92,7 +92,7 @@ public class PerfilController {
             jugador.getTelefonos().clear();
             jugador.getTelefonos().addAll(usuarioDTO.getTelefonos());
 
-            if (!usuarioDTO.getCategoria().isEmpty()) {
+            if (usuarioDTO.getCategoria() != null && !usuarioDTO.getCategoria().isEmpty()) {
                 jugador.setCategoria(perfil_service.verificar_categoria(usuarioDTO.getCategoria()));
             }
 

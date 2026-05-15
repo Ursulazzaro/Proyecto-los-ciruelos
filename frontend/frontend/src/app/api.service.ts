@@ -149,4 +149,20 @@ export class ApiService {
         return this.http.put<any>(url, null); // Se usa null porque los datos van en la URL, no en el cuerpo
       }));
   }
+
+  modificarPerfil(usuarioDTO: any): Observable<any> {
+    return this.authService.getUserEmail().pipe(
+      switchMap(email => {
+        if (!email) {
+          return throwError(() => new Error("No hay usuario autenticado"));
+        }
+
+        const url = `${this.apiUrl}public/modificar_perfil?email=${encodeURIComponent(email)}`;
+        return this.http.put(url, usuarioDTO, { responseType: 'text' });
+      })
+    );
+  }
+
 }
+
+
