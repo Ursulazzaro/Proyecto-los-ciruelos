@@ -1,5 +1,15 @@
 package Grupo11.Seminario.Security;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Optional;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.GenericFilterBean;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
 
@@ -11,15 +21,6 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Optional;
-
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.GenericFilterBean;
 
 @Component
 public class FirebaseAuthFilter extends GenericFilterBean {
@@ -43,12 +44,13 @@ public class FirebaseAuthFilter extends GenericFilterBean {
 
         // Excluir rutas públicas
         String requestURI = httpRequest.getRequestURI();
-        if (requestURI.startsWith("/public/") | requestURI.startsWith("/configuracion_general/public/")) {
-            // Continuar la cadena de filtros sin verificar el token
+        System.out.println("REQUEST URI: " + requestURI);
+        System.out.println("METHOD: " + httpRequest.getMethod());
+        if (requestURI.startsWith("/public/") || requestURI.startsWith("/configuracion_general/public/")) {
+            System.out.println("RUTA PUBLICA, NO PIDE TOKEN");
             chain.doFilter(request, response);
             return;
         }
-
         String authHeader = httpRequest.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {

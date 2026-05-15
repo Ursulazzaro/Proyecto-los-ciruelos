@@ -3,7 +3,6 @@ package Grupo11.Seminario.Controller;
 import Grupo11.Seminario.Service.EmpleadoService;
 import Grupo11.Seminario.Service.JugadorService;
 import Grupo11.Seminario.Service.UsuarioService;
-import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

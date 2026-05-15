@@ -23,7 +23,6 @@ export class VerificarCorreoComponent implements OnInit {
       if (oobCode) {
         this.authService.verifyEmailWithCode(oobCode).then(() => {
           console.log('Correo verificado con éxito');
-          this.router.navigate(['/login']);
         }).catch(error => {
           console.error('Error en la verificación del correo:', error);
         });

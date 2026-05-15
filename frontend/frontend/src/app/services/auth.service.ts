@@ -43,9 +43,10 @@ export class AuthService {
   }
 
   // Método para verificar si el usuario está autenticado
-    isAuthenticated(): boolean {
-      return !!this.auth.currentUser;
-    }
+  isAuthenticated(): boolean {
+    const user = this.auth.currentUser;
+    return !!user && user.emailVerified;
+  }
 
    // Método para hacer logout
     logout(): Promise<void> {
@@ -98,9 +99,6 @@ export class AuthService {
       .then(async (userCredential) => {
         // Verificar si el correo está verificado
       if (!userCredential.user?.emailVerified) {
-        // Reenviar mail de verificación
-        await sendEmailVerification(userCredential.user);
-
         // Cerrar sesión si no verificó el mail
         await signOut(this.auth);
 
@@ -142,12 +140,15 @@ export class AuthService {
 async enviarEmailVerification(userCredential: UserCredential): Promise<void> {
   const user = userCredential.user;
 
-  if (!user) {
-    return;
-  }
+  if (!user) return;
 
   try {
-    await sendEmailVerification(user);
+    const actionCodeSettings = {
+      url: 'http://localhost:4200/verificar-correo',
+      handleCodeInApp: true
+    };
+
+    await sendEmailVerification(user, actionCodeSettings);
 
     this.toastrService.info(
       "Correo de verificación enviado. Revisá tu email.",
@@ -156,7 +157,6 @@ async enviarEmailVerification(userCredential: UserCredential): Promise<void> {
 
   } catch (error) {
     console.error('Error enviando mail:', error);
-
     this.toastrService.error(
       "No se pudo enviar el correo de verificación.",
       "Error"

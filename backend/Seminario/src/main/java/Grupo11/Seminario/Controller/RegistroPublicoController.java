@@ -34,7 +34,6 @@ public class RegistroPublicoController {
 
     @PutMapping(path = "/bloquear/turno")
     ResponseEntity<Map<String, String>> bloquear_turno(HttpServletRequest request, @RequestBody TurnoDTO turnoDTO){
-        String email = (String) request.getAttribute("email");
 
         Turno turno = new Turno();
         turno.setCancha(reserva_service.buscar_cancha(turnoDTO.getId_cancha()));

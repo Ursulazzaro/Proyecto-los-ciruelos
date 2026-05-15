@@ -18,7 +18,6 @@ import Grupo11.Seminario.Entities.Jugador;
 import Grupo11.Seminario.Entities.Usuario;
 import Grupo11.Seminario.Service.PerfilService;
 import Grupo11.Seminario.Service.UsuarioService;
-import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(path = "/public")
@@ -29,36 +28,61 @@ public class PerfilController {
     @Autowired
     UsuarioService usuario_service;
     
-    @GetMapping(path = "/consultar_perfil")
-    public ResponseEntity<?> consultar_perfil(@RequestParam String email){
-        Integer id_usuario = usuario_service.buscar_usuario(email).get().getId();
-        
-        Empleado empleado = perfil_service.buscar_empleado(id_usuario);
-        if (empleado==null) {
-            Jugador jugador = perfil_service.buscar_jugador(id_usuario);
-            JugadorDTO jugadorDTO = new JugadorDTO
-                    (
-                    jugador.getEmail(), jugador.getNombre(), jugador.getApellido(),
-                    jugador.getCategoria().toString(), jugador.getTelefonos()
-                    );
-            jugadorDTO.setProfesor(jugador.getProfesor());
-            jugadorDTO.setSocio(jugador.getSocio());
-            return ResponseEntity.ok().body(jugadorDTO);
+        @GetMapping(path = "/consultar_perfil")
+        public ResponseEntity<?> consultar_perfil(@RequestParam String email) {
+
+            Optional<Usuario> usuarioOptional = usuario_service.buscar_usuario(email);
+
+            if (usuarioOptional.isEmpty()) {
+                return ResponseEntity.status(404).body("Usuario no encontrado");
+            }
+
+            Integer id_usuario = usuarioOptional.get().getId();
+
+            Empleado empleado = perfil_service.buscar_empleado(id_usuario);
+
+            if (empleado == null) {
+                Jugador jugador = perfil_service.buscar_jugador(id_usuario);
+
+                if (jugador == null) {
+                    return ResponseEntity.status(404).body("Jugador no encontrado");
+                }
+
+                JugadorDTO jugadorDTO = new JugadorDTO(
+                    jugador.getEmail(),
+                    jugador.getNombre(),
+                    jugador.getApellido(),
+                    jugador.getCategoria().toString(),
+                    jugador.getTelefonos()
+                );
+
+                jugadorDTO.setProfesor(jugador.getProfesor());
+                jugadorDTO.setSocio(jugador.getSocio());
+
+                return ResponseEntity.ok().body(jugadorDTO);
+            }
+
+            EmpleadoDTO empleadoDTO = new EmpleadoDTO(
+                empleado.getEmail(),
+                empleado.getNombre(),
+                empleado.getApellido(),
+                empleado.getDuenio(),
+                empleado.getTelefonos()
+            );
+
+            return ResponseEntity.ok().body(empleadoDTO);
         }
-        EmpleadoDTO empleadoDTO = new EmpleadoDTO
-                    (
-                    empleado.getEmail(), empleado.getNombre(), empleado.getApellido(),
-                    empleado.getDuenio(), empleado.getTelefonos()
-                    );
-        return ResponseEntity.ok().body(empleadoDTO);
-    }
 
     @PutMapping(path = "/modificar_perfil")
     public ResponseEntity<?> modificar_perfil(@RequestParam String email, @RequestBody UsuarioDTO usuarioDTO){
-    
+
         Optional<Usuario> usuario = usuario_service.buscar_usuario(email);
-        Integer id_usuario=usuario.get().getId();
-        
+
+        if (usuario.isEmpty()) {
+            return ResponseEntity.status(404).body("Usuario no encontrado");
+        }
+
+        Integer id_usuario = usuario.get().getId();
         Empleado empleado = perfil_service.buscar_empleado(id_usuario);
         if (empleado==null) {
             Jugador jugador = perfil_service.buscar_jugador(id_usuario);

@@ -1,15 +1,17 @@
 package Grupo11.Seminario.Security;
 
 import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import Grupo11.Seminario.Service.UsuarioService;
 
@@ -30,12 +32,14 @@ public class WebSecurityConfig {
             .csrf(csrf->csrf.disable()) // Opcional: desactiva CSRF si no es necesario
             .authorizeHttpRequests(authorizeRequests -> 
                 authorizeRequests
-                .requestMatchers("/public/**").permitAll() // Permite acceso sin autenticación a "/public/**"
-                .requestMatchers("/configuracion_general/public/**").permitAll() // Permite acceso sin autenticación a "/public/**"
-                .requestMatchers("/private/**").authenticated()
-                .requestMatchers("/configuracion_general/private/**").authenticated()
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers("/public/**").permitAll()
+                    .requestMatchers("/configuracion_general/public/**").permitAll()
+                    .requestMatchers("/private/**").authenticated()
+                    .requestMatchers("/configuracion_general/private/**").authenticated()
+                    .anyRequest().authenticated()
             )
-            .addFilterBefore(new FirebaseAuthFilter(usuarioService), CorsFilter.class);
+            .addFilterBefore(new FirebaseAuthFilter(usuarioService), UsernamePasswordAuthenticationFilter.class);
             http.cors(cors -> cors.configurationSource(corsConfigurationSource())); // Habilita CORS
 
         return http.build();

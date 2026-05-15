@@ -23,6 +23,6 @@ public class Telefono {
     private Integer codigo;
 
     @Column(nullable = false, name = "numero")
-    private Integer numero;
+    private Long numero;
 
 }
