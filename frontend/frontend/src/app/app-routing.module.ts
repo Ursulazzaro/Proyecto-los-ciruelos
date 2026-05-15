@@ -16,7 +16,7 @@ import { BeneficiosSociosComponent } from './components/beneficios-socios/benefi
 import { ProcesarPagoComponent } from './components/shared/procesar-pago/procesar-pago.component';
 import { MisReservasComponent } from './components/shared/mis-reservas/mis-reservas.component';import { ProfesoresComponent } from './components/shared/profesores/profesores.component';
 import { PerfilComponent } from './components/shared/perfil/perfil.component';
-
+import { EstadisticasComponent } from './components/shared/estadisticas/estadisticas.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -30,6 +30,7 @@ const routes: Routes = [
   { path: 'verifyEmail', component: VerificarCorreoComponent },
   { path: 'mercadopago', component: MercadopagoComponent, canActivate: [authGuard] },
   { path: 'ticket', component: TicketComponent, canActivate: [authGuard] },
+  { path: 'estadisticas', component: EstadisticasComponent, canActivate: [authGuard]},
   { path: 'reserva', component: ReservaComponent, canActivate: [authGuard] },
   { path: 'beneficios', component: BeneficiosSociosComponent },
   { path: 'procesar-pago', component: ProcesarPagoComponent, canActivate: [authGuard] },

@@ -17,6 +17,10 @@
     transition: box-shadow 0.3s ease-in-out;
 }
 
+.navbar__container {
+    gap: 8px;
+}
+
 .navbar.scrolled {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }

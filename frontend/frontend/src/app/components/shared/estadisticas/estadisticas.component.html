@@ -1,0 +1,105 @@
+<div class="page-layout">
+
+  <div class="premium-card">
+
+    <div class="premium-header">
+
+      <h1>
+        Mis Estadísticas
+      </h1>
+
+      <p>
+        Consultá un resumen de tu actividad como jugador dentro del club.
+      </p>
+
+      <span class="premium-badge">
+        Estadísticas de jugador
+      </span>
+
+    </div>
+
+    <div class="premium-content">
+
+      <div class="stats-grid">
+
+        <div
+          class="stat-card"
+          *ngFor="let estadistica of estadisticasJugador"
+        >
+
+          <span class="stat-label">
+            {{ estadistica.titulo }}
+          </span>
+
+          <strong class="stat-value">
+            {{ estadistica.valor }}
+          </strong>
+
+          <p>
+            {{ estadistica.descripcion }}
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="charts-grid">
+
+        <div
+          class="chart-card"
+          *ngIf="reservasPorMesData"
+        >
+
+          <h2>
+            Reservas por mes
+          </h2>
+
+          <canvas
+            baseChart
+            [data]="reservasPorMesData"
+            [type]="'bar'">
+          </canvas>
+
+        </div>
+
+        <div
+          class="chart-card"
+          *ngIf="reservasPorCanchaData"
+        >
+
+          <h2>
+            Uso de canchas
+          </h2>
+
+          <canvas
+            baseChart
+            [data]="reservasPorCanchaData"
+            [type]="'pie'">
+          </canvas>
+
+        </div>
+
+        <div
+          class="chart-card full-chart"
+          *ngIf="reservasPorHorarioData"
+        >
+
+          <h2>
+            Horarios más utilizados
+          </h2>
+
+          <canvas
+            baseChart
+            [data]="reservasPorHorarioData"
+            [type]="'bar'">
+          </canvas>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

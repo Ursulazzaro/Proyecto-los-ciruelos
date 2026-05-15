@@ -163,6 +163,19 @@ export class ApiService {
     );
   }
 
+  getEstadisticas(): Observable<any> {
+    return this.authService.getUserEmail().pipe(
+      switchMap(email => {
+        if (!email) {
+          return throwError(() => new Error("No hay usuario autenticado"));
+        }
+
+        const url = `${this.apiUrl}public/estadisticas?email=${encodeURIComponent(email)}`;
+        return this.http.get<any>(url);
+      })
+    );
+  }
+
 }
 
 

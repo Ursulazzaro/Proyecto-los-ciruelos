@@ -8,6 +8,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox'
 import { ToastrModule } from 'ngx-toastr';
+import { BaseChartDirective } from 'ng2-charts';
 
 // Importaciones de Angular Material
 import { MatButtonModule } from '@angular/material/button';
@@ -47,6 +48,7 @@ import { ReservaComponent } from './components/shared/reserva/reserva.component'
 import { ProcesarPagoComponent } from './components/shared/procesar-pago/procesar-pago.component';
 import { MisReservasComponent } from './components/shared/mis-reservas/mis-reservas.component';
 import { ProfesoresComponent } from './components/shared/profesores/profesores.component';
+import { EstadisticasComponent } from './components/shared/estadisticas/estadisticas.component';
 
 
 
@@ -74,7 +76,8 @@ import { ProfesoresComponent } from './components/shared/profesores/profesores.c
     DesasociarComponent,
     ProcesarPagoComponent,
     MisReservasComponent,
-    ProfesoresComponent
+    ProfesoresComponent,
+    EstadisticasComponent
 
   ],
   imports: [
@@ -90,6 +93,7 @@ import { ProfesoresComponent } from './components/shared/profesores/profesores.c
     MatSelectModule,
     NgOptimizedImage,
     MatCheckboxModule,
+    BaseChartDirective,
     BrowserAnimationsModule, // Asegúrate de importar esto
     ToastrModule.forRoot({
       positionClass: 'toast-top-right', // Coloca la notificación arriba a la derecha
