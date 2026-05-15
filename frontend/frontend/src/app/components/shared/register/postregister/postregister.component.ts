@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-postregister',
   templateUrl: './postregister.component.html',
-  styleUrls: ['./postregister.component.scss'],
+  styleUrls: ['./postregister.component.css'],
 })
 export class PostRegisterComponent implements OnInit {
   form: FormGroup;
