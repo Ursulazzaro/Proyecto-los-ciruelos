@@ -16,7 +16,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(private router: Router, private authService: AuthService, private toastrService: ToastrService) {
     this.authService.authState$.subscribe(user => {
-      this.isLoggedIn = !!user; // Si hay un usuario, isLoggedIn es true
+      this.isLoggedIn = !!user && user.emailVerified; // Si hay un usuario, isLoggedIn es true
     });
   }
 
@@ -49,6 +49,18 @@ export class NavbarComponent implements OnInit {
 
   }
 
+irALogin(): void {
+  console.log('Click en Iniciar Sesión');
+  console.log('isLoggedIn:', this.isLoggedIn);
+  console.log('URL actual:', this.router.url);
+
+  this.router.navigate(['/login']).then(resultado => {
+    console.log('Resultado navegación a login:', resultado);
+    console.log('URL después:', this.router.url);
+  }).catch(error => {
+    console.error('Error navegando a login:', error);
+  });
+}
   private scrollToSection(sectionId: string) {
     const element = document.getElementById(sectionId);
     if (element) {

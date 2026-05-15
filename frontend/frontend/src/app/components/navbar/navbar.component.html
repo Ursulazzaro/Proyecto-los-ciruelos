@@ -17,7 +17,7 @@
       </button>
   
       <!-- Mostrar el botón 'Iniciar sesión' si el usuario no está logueado -->
-      <button *ngIf="!isLoggedIn" routerLink="/login" type="button">
+      <button *ngIf="!isLoggedIn" (click)="irALogin()" type="button">
         Iniciar Sesión
       </button>
         <!-- Mostrar el botón 'Cerrar sesión' si el usuario está logueado -->

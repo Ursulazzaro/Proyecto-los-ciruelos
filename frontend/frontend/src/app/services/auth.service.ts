@@ -43,24 +43,23 @@ export class AuthService {
   }
 
   // Método para verificar si el usuario está autenticado
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem('user');  // Verifica si el usuario está en localStorage
-  }
+    isAuthenticated(): boolean {
+      return !!this.auth.currentUser;
+    }
 
    // Método para hacer logout
-   logout(): Promise<void> {
-    return signOut(this.auth)
-      .then(() => {
-        localStorage.removeItem('user'); // Elimina el usuario de localStorage al cerrar sesión
-        this.router.navigate(['/home'], { queryParams: {}, replaceUrl: true }); // Elimina los queryParams
-      })
-      .catch((error) => {
-        console.error('Error al cerrar sesión', error);
-        this.toastrService.error('Hubo un error al cerrar sesión', 'Error');
-        throw error;  // Lanza error si ocurre algún problema al hacer logout
-      });
-  }
-  
+    logout(): Promise<void> {
+      return signOut(this.auth)
+        .then(() => {
+          this.router.navigate(['/home'], { queryParams: {}, replaceUrl: true });
+        })
+        .catch((error) => {
+          console.error('Error al cerrar sesión', error);
+          this.toastrService.error('Hubo un error al cerrar sesión', 'Error');
+          throw error;
+        });
+    }
+      
   async updatePassword(newPassword: string): Promise<void> {
     const user = this.auth.currentUser;
     if (user) {
@@ -74,7 +73,7 @@ export class AuthService {
     return createUserWithEmailAndPassword(this.auth, credential.email, credential.password)
       .then(async (userCredential) => {
         if (userCredential.user) {
-          this.enviarEmailVerification(userCredential);
+          await this.enviarEmailVerification(userCredential); // Esperamos que firebase mande el mail
         }
         return userCredential;
       })  
@@ -98,17 +97,19 @@ export class AuthService {
     return signInWithEmailAndPassword(this.auth, credential.email, credential.password)
       .then(async (userCredential) => {
         // Verificar si el correo está verificado
-        if (!userCredential.user?.emailVerified) {
-          // Enviar nuevamente el correo de verificación
-          sendEmailVerification(userCredential.user);
-          
-          // Lanzar un error con el código 'auth/email-not-verified'
-          const error: any = new Error('Correo no verificado');
-          error.code = 'auth/email-not-verified'; // Definir el código de error Firebase
-          throw error;
-        }
-        localStorage.setItem('user', JSON.stringify(this.user)); // Guarda el usuario en localStorage
+      if (!userCredential.user?.emailVerified) {
+        // Reenviar mail de verificación
+        await sendEmailVerification(userCredential.user);
 
+        // Cerrar sesión si no verificó el mail
+        await signOut(this.auth);
+
+        // Lanzar error personalizado
+        const error: any = new Error('Correo no verificado');
+        error.code = 'auth/email-not-verified';
+
+        throw error;
+      }
         this.toastrService.success("Bienvenido de nuevo! Nos alegra verte otra vez.", "Exito");
   
         return userCredential;
@@ -131,33 +132,37 @@ export class AuthService {
     const provider = new GoogleAuthProvider();
   
     try {
-      localStorage.setItem('user', JSON.stringify(this.user)); // Guarda el usuario en localStorage
-      return await signInWithPopup(this.auth, provider);
+     return await signInWithPopup(this.auth, provider);
       
     } catch (error: any) {
       return error;
     }
   }  
 
-  async enviarEmailVerification(userCredential: UserCredential): Promise<void> {
-    const user = userCredential.user;
-    if (user && !user.emailVerified) {
-      try {
-        const actionCodeSettings = {
-          url: 'https://proyecto-los-ciruelos.firebaseapp.com/__/auth/action',  
-          handleCodeInApp: true,
-        };
-      
-        await sendEmailVerification(user, actionCodeSettings);
-        this.toastrService.info("Correo de verificación enviado. Revisa tu correo electronico.", "Verificación requerida");
-      } catch (error) {
-        console.error('Error al enviar el correo de verificación:', error);
-        this.toastrService.error("Error al enviar el correo de verificación. Inténtalo nuevamente.", "Error");
-      }
-    } else {
-      this.toastrService.warning("No pudimos encontrar tu cuenta o ya verificaste tu correo.", "Atención");
-    }
+async enviarEmailVerification(userCredential: UserCredential): Promise<void> {
+  const user = userCredential.user;
+
+  if (!user) {
+    return;
   }
+
+  try {
+    await sendEmailVerification(user);
+
+    this.toastrService.info(
+      "Correo de verificación enviado. Revisá tu email.",
+      "Verificación requerida"
+    );
+
+  } catch (error) {
+    console.error('Error enviando mail:', error);
+
+    this.toastrService.error(
+      "No se pudo enviar el correo de verificación.",
+      "Error"
+    );
+  }
+}
 
   async resetPassword(email: string): Promise<void> {
     await sendPasswordResetEmail(this.auth, email);
